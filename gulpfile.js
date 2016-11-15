@@ -166,10 +166,11 @@ gulp.task('bs-reload', function() {
 
 gulp.task('watch',function(){
     gulp.watch([
-        'app/src/**/*.js',
         'app/scss/**/*.scss',
-        //'app/css/**/*.css',
-    ],['compass','scripts','bs-reload']);
+    ],['compass']);
+    gulp.watch([
+        'app/src/**/*.js',
+    ],['scripts']);
 });
 
 // ///////////////////////////////////////////////////////////////////
@@ -178,10 +179,11 @@ gulp.task('watch',function(){
 
 
 gulp.task('default',['vendor','compass','scripts','browser-sync','watch','html'],function(){
-    gulp.watch('app/src/**/*.scss', function(file) {
+    gulp.watch(['app/css/*.css','app/js/*.js']).on("change", function(file) {
         if (file.type === "changed") {
             reload(file.path);
         }
+        console.log("compass/scripts finished writing Files. Reloaded page.");
     });
     gulp.watch(['app/**/*.html'], ['bs-reload']);
 
